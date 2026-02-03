@@ -52,7 +52,7 @@ The root marketplace catalog lists all available plugins:
 ```json
 {
   "name": "agentpalooza",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "metadata": {
     "pluginRoot": "./plugins"
   },
@@ -94,17 +94,32 @@ color: pink
 ### @research-assistant (Orchestrator)
 - **Role**: Coordinates research workflow between generation and validation
 - **Model**: Opus | **Color**: Pink
+- **Tools**: `Task, Read, Write, Edit, Grep, Glob`
 - **Workflow**: Manages iterative verification cycles (max 3 attempts)
 
 ### @research-report-generator (Generator)
 - **Role**: Produces comprehensive research reports using parallel subagents
 - **Model**: Opus | **Color**: Cyan
+- **Tools**: `Task, Glob, Grep, Read, Write, WebFetch, WebSearch`
 - **Spawns**: 2-8 specialized subagents for parallel research
+- **Output**: Writes reports to `.research/reports/{topic-slug}-{timestamp}.md`
 
 ### @research-fact-checker (Validator)
 - **Role**: Validates research outputs against quality and format standards
 - **Model**: Opus | **Color**: Green
-- **Output**: ACCEPT or REJECT with required actions
+- **Tools**: `Glob, Grep, Read, WebFetch, WebSearch`
+- **Output**: ACCEPT (certify and deliver) or REJECT with required actions
+
+### Mandatory Fact-Check Certification
+
+All research reports must pass fact-check certification before delivery to the user:
+
+1. **Report Generation**: The report generator writes the completed report to `.research/reports/`
+2. **Fact-Check Validation**: The fact-checker reads the report from disk and validates it
+3. **Certification Decision**:
+   - **ACCEPT**: Report is certified and delivered to the user
+   - **REJECT**: Required actions are specified; generator iterates (max 3 attempts)
+4. **Failure Handling**: After 3 failed attempts, the best available report is delivered with caveats
 
 ### Agent Interaction Flow
 
@@ -119,12 +134,12 @@ User Request
      │         ├──► Spawn subagents (2-8)
      │         │
      │         ▼
-     │    Research Report
+     │    Writes report to .research/reports/
      │         │
      ▼         ▼
-@research-fact-checker
+@research-fact-checker ◄── Reads report from disk
      │
-     ├── ACCEPT ──► Deliver Report
+     ├── ACCEPT ──► Certify & Deliver Report
      │
      └── REJECT ──► Required Actions (iterate up to 3x)
 ```
@@ -150,9 +165,9 @@ User Request
 ### Tool Assignment Strategy
 
 Different agents should receive tools appropriate to their responsibilities:
-- **Orchestrators**: Task management, file reading, searching
-- **Generators**: Research tools (WebFetch, WebSearch, Task), writing, editing
-- **Validators**: Analysis tools (Grep, Read, Glob), quality assessment
+- **Orchestrators** (e.g., @research-assistant): `Task, Read, Write, Edit, Grep, Glob` — coordination, file management, searching
+- **Generators** (e.g., @research-report-generator): `Task, Glob, Grep, Read, Write, WebFetch, WebSearch` — research, content creation, web access
+- **Validators** (e.g., @research-fact-checker): `Glob, Grep, Read, WebFetch, WebSearch` — analysis, verification, fact-checking (no write access)
 
 ## Development Guidelines
 
