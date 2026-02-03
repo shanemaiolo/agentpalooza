@@ -1,0 +1,19 @@
+{
+  "name": "agentpalooza",
+  "version": "1.0.0",
+  "metadata": {
+    "description": "Plugin marketplace for Claude Code",
+    "pluginRoot": "./plugins"
+  },
+  "owner": {
+    "name": "Shane Maiolo"
+  },
+  "plugins": [
+    {
+      "name": "research",
+      "description": "Research toolkit with coordinated agents for deep research, fact-checking, and report generation",
+      "source": "./plugins/research",
+      "tags": ["research", "fact-checking", "agents"]
+    }
+  ]
+}
