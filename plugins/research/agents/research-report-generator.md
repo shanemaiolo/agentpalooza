@@ -71,7 +71,23 @@ After all subagents complete their research:
 
 ## Output Format
 
-Your final research report must include:
+Your final research report MUST include (in this order):
+
+### 1. Fact-Check Certification Block (REQUIRED AT TOP)
+Always include this block at the very top of your report. Set status to PENDING:
+```
+---
+### Fact-Check Certification
+**Fact-Check Status**: PENDING VERIFICATION
+**Verification Attempts**: 0/3
+**Certified By**: Awaiting @research-fact-checker
+**Certification Date**: Pending
+---
+```
+**Note**: This block will be updated by @research-assistant after @research-fact-checker validates the report.
+
+### 2. Report Content
+After the certification block, include:
 
 1. **Executive Summary**: Key findings in 3-5 bullet points
 2. **Research Methodology**: Number of threads, focus areas, source types

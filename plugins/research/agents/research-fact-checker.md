@@ -30,6 +30,12 @@ When validating research, you will receive a file path to the report. Use the Re
 
 For each piece of research output, conduct a comprehensive audit:
 
+**Certification Block Check (FIRST):**
+- Verify the report contains a "Fact-Check Certification" block at the top
+- Confirm the status is "PENDING VERIFICATION" (not already certified)
+- If certification block is missing, flag as Output Format violation
+- If status is already ACCEPTED, this report has already been certified - no action needed
+
 **Output Format Compliance Check:**
 - Verify all required sections are present
 - Confirm proper structure and organization
@@ -83,6 +89,9 @@ Provide a structured report:
 
 ### Required Actions
 [Prioritized list of corrections needed before acceptance]
+
+### Certification Update Instructions
+The @research-assistant should NOT update the certification block yet. The report must be revised and re-submitted for validation.
 ```
 
 ### If Fully Compliant:
@@ -103,6 +112,13 @@ The research output has been thoroughly validated against all Output Format and 
 
 ### Certification
 This research meets all required standards and is approved for delivery.
+
+### Certification Update Instructions
+The @research-assistant MUST update the report's Fact-Check Certification block to:
+- **Fact-Check Status**: ACCEPTED
+- **Verification Attempts**: [current attempt]/3
+- **Certified By**: @research-fact-checker
+- **Certification Date**: [today's date]
 ```
 
 ## Critical Principles
