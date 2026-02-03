@@ -68,6 +68,7 @@ After receiving ACCEPT from @research-fact-checker OR reaching max iterations:
    - `**Verification Attempts**: X/3`
    - `**Certified By**: @research-fact-checker`
    - `**Certification Date**: {current date}`
+4. After updating the certification, use the Write tool to save the complete certified report to the same file path, ensuring the final version is persisted to disk
 
 ## Critical Constraints
 
