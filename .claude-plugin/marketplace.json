@@ -1,6 +1,6 @@
 {
   "name": "agentpalooza",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "metadata": {
     "description": "Plugin marketplace for Claude Code",
     "pluginRoot": "./plugins"

@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.2.2**
+**Version 1.2.3**
 
 A plugin marketplace for Claude Code — distribute reusable agents and skills across projects.
 
@@ -157,4 +157,4 @@ agentpalooza/
 
 ## License
 
-MIT
+Apache 2.0

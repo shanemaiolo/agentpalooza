@@ -52,7 +52,7 @@ The root marketplace catalog lists all available plugins:
 ```json
 {
   "name": "agentpalooza",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "metadata": {
     "pluginRoot": "./plugins"
   },

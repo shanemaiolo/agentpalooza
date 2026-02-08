@@ -1,6 +1,6 @@
 {
   "name": "research",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Research toolkit with @research-assistant, @research-fact-checker, and @research-report-generator",
   "agents": [
     "./agents/research-assistant.md",
