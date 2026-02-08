@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.1.0**
+**Version 1.2.0**
 
 A plugin marketplace for Claude Code — distribute reusable agents and skills across projects.
 
@@ -24,25 +24,29 @@ A plugin marketplace for Claude Code — distribute reusable agents and skills a
 
 ### Research Plugin
 
-A multi-agent research toolkit that coordinates comprehensive research with built-in fact-checking and mandatory certification:
+A multi-agent research toolkit that coordinates comprehensive research with built-in fact-checking, interactive standard selection, and mandatory certification:
 
-- **@research-assistant** — Orchestrates the research workflow, managing iterations between generation and validation
+- **@research-assistant** — Orchestrates the research workflow, parsing Report Configuration and managing iterations between generation and validation
   - Tools: `Task, Read, Write, Edit, Grep, Glob`
-- **@research-report-generator** — Produces comprehensive research reports using 2-8 parallel subagents
+- **@research-report-generator** — Produces comprehensive research reports using 2-8 parallel subagents, formatted per the selected standard category (1-9) and quality layer (1-5)
   - Tools: `Task, Glob, Grep, Read, Write, WebFetch, WebSearch`
-- **@research-fact-checker** — Validates research outputs against quality and format standards
+- **@research-fact-checker** — Validates research outputs against quality, format, and standard-specific rules
   - Tools: `Glob, Grep, Read, WebFetch, WebSearch`
+
+**Interactive selection**: Before research begins, users choose a **Standard Category** (Academic, Industry, Government, Digital, Quality, AI-Report, Use-Case, Custom, or Practical) and a **Report Type** (Quick Brief, Deep Technical, Executive Summary, Compliance, or Hybrid). These selections guide formatting and validation throughout the pipeline.
 
 **Reports are saved to** `.reports/{topic-slug}-{timestamp}.md` for persistent storage and cross-agent access.
 
-**Mandatory fact-check certification**: All reports must pass fact-checking validation before delivery. The fact-checker can ACCEPT (certify and deliver) or REJECT (iterate, max 3 attempts).
+**Mandatory fact-check certification**: All reports must pass fact-checking validation (including standard-specific checks) before delivery. The fact-checker can ACCEPT (certify and deliver) or REJECT (iterate, max 3 attempts).
 
 ```
-User Request → @research-assistant → @research-report-generator → [writes to .reports/]
-                                              ↓
-                                    @research-fact-checker ← [reads from disk]
-                                              ↓
-                              ACCEPT: Certify & Deliver | REJECT: Iterate (max 3x)
+User Request → Select Standard & Report Type → @research-assistant
+                    ↓
+         @research-report-generator → [writes to .reports/]
+                    ↓
+         @research-fact-checker ← [reads from disk]
+                    ↓
+         ACCEPT: Certify & Deliver | REJECT: Iterate (max 3x)
 ```
 
 ## Project Configuration
