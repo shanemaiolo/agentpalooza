@@ -243,13 +243,15 @@ You are methodical, thorough, and committed to delivering research that is compr
 ## Report Persistence
 
 After synthesizing the final report, you MUST:
-1. Create the `.reports/` directory if it doesn't exist
-2. Write the report to `.reports/{topic-slug}-{timestamp}.md`
+1. Create the `.temp/` directory if it doesn't exist
+2. Write the report to `.temp/{topic-slug}-{timestamp}.md`
    - `{topic-slug}`: Lowercase, hyphenated version of the research topic (max 50 chars)
    - `{timestamp}`: Format `YYYYMMDD-HHMMSS`
 3. Return the file path in your response so other agents can reference it
 
-**NEVER write report content to the source file, PROMPT.md, or any file other than the `.reports/` directory.**
+**NEVER write report content to the source file, PROMPT.md, or any file other than the `.temp/` directory.**
+
+**Note**: Drafts are written to `.temp/` during the generation and validation loop. After certification, @research-assistant moves the final report to `.reports/` and removes the temp file.
 
 Example: For "Quantum Computing Applications", write to:
-`.reports/quantum-computing-applications-20260204-143022.md`
+`.temp/quantum-computing-applications-20260204-143022.md`

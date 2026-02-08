@@ -52,7 +52,7 @@ The root marketplace catalog lists all available plugins:
 ```json
 {
   "name": "agentpalooza",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "metadata": {
     "pluginRoot": "./plugins"
   },
@@ -94,7 +94,7 @@ color: pink
 ### @research-assistant (Orchestrator)
 - **Role**: Coordinates research workflow between generation and validation
 - **Model**: Opus | **Color**: Pink
-- **Tools**: `Task, Read, Write, Edit, Grep, Glob`
+- **Tools**: `Task, Read, Write, Edit, Bash, Grep, Glob`
 - **Workflow**: Parses the Report Configuration block (Standard Category + Report Type), maps Report Type to Quality Layer, then manages iterative verification cycles (max 3 attempts)
 - **Pre-spawn Requirement**: The main Claude instance must ask the user for Standard Category (1-9) and Report Type via `AskUserQuestion` before launching this agent, prepending selections as a `**Report Configuration**` block
 
@@ -103,7 +103,7 @@ color: pink
 - **Model**: Opus | **Color**: Cyan
 - **Tools**: `Task, Glob, Grep, Read, Write, WebFetch, WebSearch`
 - **Spawns**: 2-8 specialized subagents for parallel research
-- **Output**: Writes reports to `.reports/{topic-slug}-{timestamp}.md`
+- **Output**: Writes drafts to `.temp/{topic-slug}-{timestamp}.md` (moved to `.reports/` by @research-assistant after certification)
 - **Quality Layers**: Supports 5 report quality layers (Layer 1 Base through Layer 5 Publication-Ready). All reports at every layer must include: Limitations section, Sources and References, and AI Disclosure.
 - **Standard Categories**: Supports 9 report standards (Academic, Industry/Professional, Government/Institutional, Digital/Web, Quality Criteria, AI-Report Standards, Use-Case Optimized, Custom/Hybrid, Practical/System-Aligned) that govern formatting and structure independently from quality layers.
 
@@ -118,12 +118,13 @@ color: pink
 
 All research reports must pass fact-check certification before delivery to the user. Reports are validated against layer-appropriate quality criteria (Layers 1-5), so a Layer 2 brief is not held to the same depth requirements as a Layer 3 deep report. However, **all reports regardless of layer** must include: a dedicated Limitations section, a formal Sources and References list with structured entries, and an AI Disclosure note.
 
-1. **Report Generation**: The report generator writes the completed report to `.reports/`
-2. **Fact-Check Validation**: The fact-checker reads the report from disk and validates it against the target quality layer
+1. **Report Generation**: The report generator writes the draft to `.temp/`
+2. **Fact-Check Validation**: The fact-checker reads the draft from disk and validates it against the target quality layer
 3. **Certification Decision**:
-   - **ACCEPT**: Report is certified and delivered to the user
-   - **REJECT**: Required actions are specified; generator iterates (max 3 attempts)
-4. **Failure Handling**: After 3 failed attempts, the best available report is delivered with caveats
+   - **ACCEPT**: Report is certified, moved from `.temp/` to `.reports/`, and delivered to the user
+   - **REJECT**: Required actions are specified; generator iterates on the `.temp/` draft (max 3 attempts)
+4. **Finalization**: After acceptance (or max iterations), the assistant writes the certified report to `.reports/` and deletes the `.temp/` file
+5. **Failure Handling**: After 3 failed attempts, the best available report is moved to `.reports/` and delivered with caveats
 
 ### Agent Interaction Flow
 
@@ -147,13 +148,13 @@ Prepend Report Configuration block
      │         ├──► Spawn subagents (2-8)
      │         │
      │         ▼
-     │    Writes report to .reports/
+     │    Writes draft to .temp/
      │         │
      ▼         ▼
-@research-fact-checker ◄── Reads report from disk
+@research-fact-checker ◄── Reads draft from disk
      │ (applies standard-specific + layer-appropriate validation)
      │
-     ├── ACCEPT ──► Certify & Deliver Report
+     ├── ACCEPT ──► Certify, move .temp/ → .reports/, Deliver
      │
      └── REJECT ──► Required Actions (iterate up to 3x)
 ```
@@ -179,7 +180,7 @@ Prepend Report Configuration block
 ### Tool Assignment Strategy
 
 Different agents should receive tools appropriate to their responsibilities:
-- **Orchestrators** (e.g., @research-assistant): `Task, Read, Write, Edit, Grep, Glob` — coordination, file management, searching
+- **Orchestrators** (e.g., @research-assistant): `Task, Read, Write, Edit, Bash, Grep, Glob` — coordination, file management, searching, temp file cleanup
 - **Generators** (e.g., @research-report-generator): `Task, Glob, Grep, Read, Write, WebFetch, WebSearch` — research, content creation, web access
 - **Validators** (e.g., @research-fact-checker): `Glob, Grep, Read, WebFetch, WebSearch` — analysis, verification, fact-checking (no write access)
 

@@ -93,13 +93,13 @@ Prepend Report Configuration block
      ├──► @research-report-generator
      │         │ (applies standard formatting + quality layer)
      │         ▼
-     │    Research Report (.reports/)
+     │    Draft Report (.temp/)
      │         │
      ▼         ▼
 @research-fact-checker
      │ (applies standard-specific + layer-appropriate validation)
      │
-     ├── ACCEPT ──► Certify & Deliver Report
+     ├── ACCEPT ──► Certify, move .temp/ → .reports/, Deliver
      │
      └── REJECT ──► Loop (max 3x)
 ```
