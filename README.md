@@ -33,12 +33,12 @@ A multi-agent research toolkit that coordinates comprehensive research with buil
 - **@research-fact-checker** — Validates research outputs against quality and format standards
   - Tools: `Glob, Grep, Read, WebFetch, WebSearch`
 
-**Reports are saved to** `.research/reports/{topic-slug}-{timestamp}.md` for persistent storage and cross-agent access.
+**Reports are saved to** `.reports/{topic-slug}-{timestamp}.md` for persistent storage and cross-agent access.
 
 **Mandatory fact-check certification**: All reports must pass fact-checking validation before delivery. The fact-checker can ACCEPT (certify and deliver) or REJECT (iterate, max 3 attempts).
 
 ```
-User Request → @research-assistant → @research-report-generator → [writes to .research/reports/]
+User Request → @research-assistant → @research-report-generator → [writes to .reports/]
                                               ↓
                                     @research-fact-checker ← [reads from disk]
                                               ↓

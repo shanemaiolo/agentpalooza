@@ -42,6 +42,9 @@ For each piece of research output, conduct a comprehensive audit:
 - Check formatting consistency (headings, citations, references)
 - Validate that all mandatory elements are included
 - Ensure proper labeling and categorization
+- Verify a dedicated **"Limitations"** section exists (not just inline mentions of limitations) — must cover scope boundaries, source limitations, temporal constraints, and areas of uncertainty
+- Verify a **"Sources and References"** section exists with structured entries (Author/Organization, Title, Date, URL for each source) — bare URLs or vague attributions are non-compliant
+- Verify an **"AI Disclosure"** note is present (model used, date of research, verification method)
 
 **Quality Standards Compliance Check:**
 - Assess source credibility and citation quality
@@ -52,6 +55,9 @@ For each piece of research output, conduct a comprehensive audit:
 - Assess objectivity and balanced presentation
 - Verify currency and relevance of information
 - Check for proper attribution and absence of plagiarism indicators
+- Verify source entries in "Sources and References" are structured (not just bare URLs or vague attributions) — each must include Author/Organization, Title, Date, URL
+- Verify the "Limitations" section substantively addresses scope boundaries and source constraints
+- If a **Target Quality Layer** is specified, verify the report's depth matches the layer expectations (e.g., a Layer 2 brief should not be rejected for missing methodology; a Layer 3+ report must include methodology, confidence levels, and knowledge gaps)
 
 ### Step 3: Document All Findings
 

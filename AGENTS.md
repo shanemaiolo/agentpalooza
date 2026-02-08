@@ -102,7 +102,8 @@ color: pink
 - **Model**: Opus | **Color**: Cyan
 - **Tools**: `Task, Glob, Grep, Read, Write, WebFetch, WebSearch`
 - **Spawns**: 2-8 specialized subagents for parallel research
-- **Output**: Writes reports to `.research/reports/{topic-slug}-{timestamp}.md`
+- **Output**: Writes reports to `.reports/{topic-slug}-{timestamp}.md`
+- **Quality Layers**: Supports 5 report quality layers (Layer 1 Base through Layer 5 Publication-Ready) with use-case profiles for automatic layer selection. All reports at every layer must include: Limitations section, Sources and References, and AI Disclosure.
 
 ### @research-fact-checker (Validator)
 - **Role**: Validates research outputs against quality and format standards
@@ -112,10 +113,10 @@ color: pink
 
 ### Mandatory Fact-Check Certification
 
-All research reports must pass fact-check certification before delivery to the user:
+All research reports must pass fact-check certification before delivery to the user. Reports are validated against layer-appropriate quality criteria (Layers 1-5), so a Layer 2 brief is not held to the same depth requirements as a Layer 3 deep report. However, **all reports regardless of layer** must include: a dedicated Limitations section, a formal Sources and References list with structured entries, and an AI Disclosure note.
 
-1. **Report Generation**: The report generator writes the completed report to `.research/reports/`
-2. **Fact-Check Validation**: The fact-checker reads the report from disk and validates it
+1. **Report Generation**: The report generator writes the completed report to `.reports/`
+2. **Fact-Check Validation**: The fact-checker reads the report from disk and validates it against the target quality layer
 3. **Certification Decision**:
    - **ACCEPT**: Report is certified and delivered to the user
    - **REJECT**: Required actions are specified; generator iterates (max 3 attempts)
@@ -134,7 +135,7 @@ User Request
      │         ├──► Spawn subagents (2-8)
      │         │
      │         ▼
-     │    Writes report to .research/reports/
+     │    Writes report to .reports/
      │         │
      ▼         ▼
 @research-fact-checker ◄── Reads report from disk
