@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.2.0**
+**Version 1.2.1**
 
 A plugin marketplace for Claude Code — distribute reusable agents and skills across projects.
 
