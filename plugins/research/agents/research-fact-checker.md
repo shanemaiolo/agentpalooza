@@ -26,6 +26,34 @@ If the standards are not immediately available, request them before proceeding.
 ### Reading Reports from Disk
 When validating research, you will receive a file path to the report. Use the Read tool to access the report content before beginning validation.
 
+### Step 1.5: Parse Report Configuration
+
+Before beginning validation, read the `**Report Configuration**` block from the prompt to determine which standard and report type are in effect:
+
+- **Standard Category (1-9)**: Determines which standard-specific structural and formatting rules to enforce
+- **Report Type**: Provides context for expected content depth
+- **Quality Layer (1-5)**: Determines depth/rigor expectations (as before)
+
+If no Report Configuration block is present, default to Standard 9 (Practical/System-Aligned) and Layer 3 (Rigorous).
+
+### Standard-Specific Validation Rules
+
+Apply the validation rules corresponding to the selected standard category **in addition to** the general format and quality checks:
+
+| Standard | Key Validation Checks |
+|----------|----------------------|
+| **1 — Academic** | Verify IMRaD structure present (Introduction, Methods, Results, Discussion), formal citations exist (author-date or numbered), abstract present at top |
+| **2 — Industry/Professional** | Verify answer-first structure (conclusion/recommendation leads), executive summary present, MECE organization, action-oriented recommendations section |
+| **3 — Government/Institutional** | Verify Objectives → Scope → Methods → Findings → Recommendations flow, audit trail elements present, numbered findings and recommendations |
+| **4 — Digital/Web** | Verify metadata elements present, structured data formatting, FAIR compliance indicators (findability, accessibility, interoperability, reusability) |
+| **5 — Quality Criteria** | Verify balanced coverage of all quality dimensions (structure, citations, evidence, readability, data presentation), explicit quality scoring or assessment |
+| **6 — AI-Report Standards** | Verify AI disclosure is prominent and detailed, confidence levels present for claims, provenance documented for sources, hallucination risks flagged |
+| **7 — Use-Case Optimized** | Verify format matches the declared report type, structure is appropriate for the stated use case and audience |
+| **8 — Custom/Hybrid** | Verify minimum viable elements present (all Layer 1 requirements), verify declared customizations from other standards are actually applied |
+| **9 — Practical/System-Aligned** | Verify report follows existing `.reports/` patterns and system conventions, pragmatic structure maintained |
+
+**Note**: Standard-specific checks are **additional** requirements on top of the general Output Format and Quality Standards checks below. A report must pass both general and standard-specific validation.
+
 ### Step 2: Systematic Review Process
 
 For each piece of research output, conduct a comprehensive audit:
@@ -86,6 +114,13 @@ Provide a structured report:
 - Location: [where in the research this occurs]
 - Recommendation: [how to remediate]
 
+### Standard-Specific Violations (Standard [N] — [Name])
+[List each standard-specific violation with:]
+- Requirement: [standard-specific rule being checked]
+- Issue: [detailed description]
+- Location: [where in the research this occurs]
+- Recommendation: [how to remediate]
+
 ### Quality Standards Violations
 [List each violation with:]
 - Standard: [specific quality criterion]
@@ -112,6 +147,9 @@ The research output has been thoroughly validated against all Output Format and 
 
 ### Output Format: ✓ COMPLIANT
 [Brief confirmation of format elements verified]
+
+### Standard [N] — [Name]: ✓ COMPLIANT
+[Brief confirmation of standard-specific structural and formatting rules verified]
 
 ### Quality Standards: ✓ COMPLIANT
 [Brief confirmation of quality criteria met]

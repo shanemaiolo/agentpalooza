@@ -95,7 +95,8 @@ color: pink
 - **Role**: Coordinates research workflow between generation and validation
 - **Model**: Opus | **Color**: Pink
 - **Tools**: `Task, Read, Write, Edit, Grep, Glob`
-- **Workflow**: Manages iterative verification cycles (max 3 attempts)
+- **Workflow**: Parses the Report Configuration block (Standard Category + Report Type), maps Report Type to Quality Layer, then manages iterative verification cycles (max 3 attempts)
+- **Pre-spawn Requirement**: The main Claude instance must ask the user for Standard Category (1-9) and Report Type via `AskUserQuestion` before launching this agent, prepending selections as a `**Report Configuration**` block
 
 ### @research-report-generator (Generator)
 - **Role**: Produces comprehensive research reports using parallel subagents
@@ -103,13 +104,15 @@ color: pink
 - **Tools**: `Task, Glob, Grep, Read, Write, WebFetch, WebSearch`
 - **Spawns**: 2-8 specialized subagents for parallel research
 - **Output**: Writes reports to `.reports/{topic-slug}-{timestamp}.md`
-- **Quality Layers**: Supports 5 report quality layers (Layer 1 Base through Layer 5 Publication-Ready) with use-case profiles for automatic layer selection. All reports at every layer must include: Limitations section, Sources and References, and AI Disclosure.
+- **Quality Layers**: Supports 5 report quality layers (Layer 1 Base through Layer 5 Publication-Ready). All reports at every layer must include: Limitations section, Sources and References, and AI Disclosure.
+- **Standard Categories**: Supports 9 report standards (Academic, Industry/Professional, Government/Institutional, Digital/Web, Quality Criteria, AI-Report Standards, Use-Case Optimized, Custom/Hybrid, Practical/System-Aligned) that govern formatting and structure independently from quality layers.
 
 ### @research-fact-checker (Validator)
-- **Role**: Validates research outputs against quality and format standards
+- **Role**: Validates research outputs against quality, format, and standard-specific rules
 - **Model**: Opus | **Color**: Green
 - **Tools**: `Glob, Grep, Read, WebFetch, WebSearch`
 - **Output**: ACCEPT (certify and deliver) or REJECT with required actions
+- **Standard-Aware**: Applies standard-specific validation rules (e.g., verifying IMRaD structure for Academic, answer-first structure for Industry/Professional) in addition to general quality checks
 
 ### Mandatory Fact-Check Certification
 
@@ -128,10 +131,19 @@ All research reports must pass fact-check certification before delivery to the u
 User Request
      │
      ▼
-@research-assistant
+Main Claude Instance
+     │
+     ├── AskUserQuestion: Standard Category (1-9)?
+     ├── AskUserQuestion: Report Type?
+     │
+     ▼
+Prepend Report Configuration block
+     │
+     ▼
+@research-assistant (parses config, maps type → layer)
      │
      ├──► @research-report-generator
-     │         │
+     │         │ (applies standard formatting + quality layer)
      │         ├──► Spawn subagents (2-8)
      │         │
      │         ▼
@@ -139,6 +151,7 @@ User Request
      │         │
      ▼         ▼
 @research-fact-checker ◄── Reads report from disk
+     │ (applies standard-specific + layer-appropriate validation)
      │
      ├── ACCEPT ──► Certify & Deliver Report
      │

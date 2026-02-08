@@ -112,9 +112,67 @@ After the certification block, include these sections. Sections marked **(Layer 
 - Every report MUST include a dedicated "Limitations" section — do not bury limitations in other sections
 - Every report MUST end with a formal "Sources and References" list with structured entries (Author/Organization, Title, Date, URL)
 
+## Report Configuration
+
+Reports are configured along two orthogonal dimensions, both specified by @research-assistant via a `**Report Configuration**` block in the prompt:
+
+- **Standard Category (1-9)**: Governs report **formatting, structure, and style**
+- **Quality Layer (1-5)**: Governs report **depth and rigor** (derived from Report Type)
+
+Default to **Standard 9 (Practical/System-Aligned)** and **Layer 3 (Rigorous)** when no configuration is specified.
+
+### Standard Categories
+
+Each standard defines how the report is structured and formatted. Apply the rules for the selected standard:
+
+#### Standard 1 — Academic
+- **Structure**: IMRaD (Introduction, Methods, Results, and Discussion)
+- **Citation Format**: Author-date (APA style) or numbered references [1] (IEEE style)
+- **Key Rules**: Abstract required at top, formal section headings, bias-free language, DOIs for sources when available, hypothesis-driven framing
+
+#### Standard 2 — Industry/Professional
+- **Structure**: Pyramid Principle (answer-first, then supporting evidence)
+- **Citation Format**: Informal inline (source name + date)
+- **Key Rules**: Executive summary leads the report, MECE organization (Mutually Exclusive, Collectively Exhaustive), action-oriented language, exhibit-driven (tables, charts, frameworks), recommendations section required
+
+#### Standard 3 — Government/Institutional
+- **Structure**: Objectives → Scope → Methods → Findings → Recommendations
+- **Citation Format**: Comprehensive with legal/regulatory references
+- **Key Rules**: Audit trail and traceability, completeness over brevity, agency response format where applicable, numbered findings and recommendations, formal appendices for supporting data
+
+#### Standard 4 — Digital/Web
+- **Structure**: Metadata-rich structured sections
+- **Citation Format**: Dublin Core elements, structured data
+- **Key Rules**: Machine-readable metadata, FAIR principles (Findable, Accessible, Interoperable, Reusable), discoverability focus, semantic markup, version-controlled content
+
+#### Standard 5 — Quality Criteria
+- **Structure**: Balanced multi-criteria structure
+- **Citation Format**: Mixed (formal + accessible)
+- **Key Rules**: Equal emphasis on structure, citations, evidence, readability, and data presentation, scoring rubric approach, explicit quality dimensions assessed
+
+#### Standard 6 — AI-Report Standards
+- **Structure**: AI-transparency-first structure
+- **Citation Format**: Source-verified with provenance chain
+- **Key Rules**: AI disclosure prominent and detailed, confidence calibration for all claims (High/Medium/Low with reasoning), hallucination risk flagging, NIST AI RMF alignment where applicable, model limitations documented
+
+#### Standard 7 — Use-Case Optimized
+- **Structure**: Auto-matched to the declared report type
+- **Citation Format**: Matched to use case conventions
+- **Key Rules**: Format derived from best practices for the specific report type, adaptive structure that prioritizes the end-user's needs, comparison matrix for multi-option analyses
+
+#### Standard 8 — Custom/Hybrid
+- **Structure**: Configurable blend of standards
+- **Citation Format**: Author-date inline + reference list
+- **Key Rules**: Decision framework approach, minimum viable standard (Layer 1 elements) + selected enhancements from other standards, explicitly document which standards are blended and why
+
+#### Standard 9 — Practical/System-Aligned
+- **Structure**: Current system patterns (follows existing `.reports/` conventions)
+- **Citation Format**: Current system format (inline attributions + Sources section)
+- **Key Rules**: Follows existing report patterns in the repository, focus on practical improvements, minimal ceremony, pragmatic depth
+
 ## Report Quality Layers
 
-Reports follow a layered quality model. Each layer builds on the previous one. The target layer is specified by @research-assistant via `**Target Quality Layer**: Layer X (Name)` in the prompt. Default to **Layer 3** when no layer is specified.
+Reports follow a layered quality model. Each layer builds on the previous one. The target layer is specified by @research-assistant via the `**Report Configuration**` block in the prompt. Default to **Layer 3** when no layer is specified.
 
 ### Layer 1 — Base (always required)
 The minimum viable standard. Every report at every layer MUST include:
