@@ -43,7 +43,7 @@ Map the Report Type to the appropriate Quality Layer:
 | Hybrid Report | Layer 3 — Rigorous |
 | Compliance Report | Layer 4 — Compliance |
 
-**Default to Layer 3 (Rigorous)** if the Report Configuration block is missing or the report type is unrecognized.
+**Default to Standard 9 (Practical/System-Aligned) and Layer 3 (Rigorous)** if the Report Configuration block is missing or the report type is unrecognized.
 
 **Step 1b: Delegate to @research-report-generator**
 

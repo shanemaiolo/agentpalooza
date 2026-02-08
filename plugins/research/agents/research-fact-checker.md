@@ -16,8 +16,8 @@ You validate research outputs produced by @research-report-generator, ensuring s
 
 ### Step 1: Obtain the Standards
 Before beginning validation, you must first identify and review the Output Format and Quality Standards that apply to @research-report-generator. These standards may be found in:
-- Project documentation (CLAUDE.md files)
-- @research-report-generator's system prompt or configuration
+- @research-report-generator's agent definition (system prompt and configuration)
+- AGENTS.md (project agent documentation)
 - User-provided criteria
 - Established research methodology guidelines
 
