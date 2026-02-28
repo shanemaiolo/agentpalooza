@@ -86,8 +86,15 @@ color: pink
 - `name`: Agent identifier (kebab-case)
 - `description`: Usage description with examples
 - `tools`: Array of available tools
-- `model`: Claude model (e.g., "opus")
+- `model`: Claude model (e.g., "opus", "sonnet", "haiku", "inherit")
 - `color`: UI color identifier
+
+**Optional Fields**:
+- `disallowedTools`: Tools to explicitly deny (defense-in-depth alongside `tools`)
+- `maxTurns`: Maximum agentic turns before stopping (prevents runaway agents)
+- `permissionMode`: Permission behavior (`default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`)
+- `memory`: Persistent memory scope (`user`, `project`, `local`) for cross-session learning
+- `hooks`: Lifecycle hooks scoped to this agent (PreToolUse, PostToolUse, Stop)
 
 ## Research Plugin Agents
 
@@ -95,22 +102,26 @@ color: pink
 - **Role**: Coordinates research workflow between generation and validation
 - **Model**: Opus | **Color**: Pink
 - **Tools**: `Task, Read, Write, Edit, Bash, Grep, Glob`
+- **Hooks**: PreToolUse on Write — enforces `.reports/` path constraint
 - **Workflow**: Parses the Report Configuration block (Standard Category + Report Type), maps Report Type to Quality Layer, then manages iterative verification cycles (max 3 attempts)
 - **Pre-spawn Requirement**: The main Claude instance must ask the user for Standard Category (1-9) and Report Type via `AskUserQuestion` before launching this agent, prepending selections as a `**Report Configuration**` block
 
 ### @research-report-generator (Generator)
 - **Role**: Produces comprehensive research reports using parallel subagents
-- **Model**: Opus | **Color**: Cyan
+- **Model**: Opus | **Color**: Cyan | **maxTurns**: 50
 - **Tools**: `Task, Glob, Grep, Read, Write, WebFetch, WebSearch`
-- **Spawns**: 2-8 specialized subagents for parallel research
+- **Hooks**: PreToolUse on Write — enforces `.temp/` path constraint
+- **Spawns**: 2-8 specialized subagents for parallel research (Haiku for web search, Sonnet for analysis, maxTurns: 15)
 - **Output**: Writes drafts to `.temp/{topic-slug}-{timestamp}.md` (moved to `.reports/` by @research-assistant after certification)
 - **Quality Layers**: Supports 5 report quality layers (Layer 1 Base through Layer 5 Publication-Ready). All reports at every layer must include: Limitations section, Sources and References, and AI Disclosure.
 - **Standard Categories**: Supports 9 report standards (Academic, Industry/Professional, Government/Institutional, Digital/Web, Quality Criteria, AI-Report Standards, Use-Case Optimized, Custom/Hybrid, Practical/System-Aligned) that govern formatting and structure independently from quality layers.
 
 ### @research-fact-checker (Validator)
 - **Role**: Validates research outputs against quality, format, and standard-specific rules
-- **Model**: Opus | **Color**: Green
-- **Tools**: `Glob, Grep, Read, WebFetch, WebSearch`
+- **Model**: Sonnet | **Color**: Green | **maxTurns**: 30
+- **Tools**: `Glob, Grep, Read, WebFetch, WebSearch` | **disallowedTools**: `Write, Edit, Bash, Task`
+- **permissionMode**: `acceptEdits` — auto-approves read operations for uninterrupted validation
+- **Memory**: Project-scoped persistent memory for tracking validation patterns across sessions
 - **Output**: ACCEPT (certify and deliver) or REJECT with required actions
 - **Standard-Aware**: Applies standard-specific validation rules (e.g., verifying IMRaD structure for Academic, answer-first structure for Industry/Professional) in addition to general quality checks
 
@@ -182,7 +193,22 @@ Prepend Report Configuration block
 Different agents should receive tools appropriate to their responsibilities:
 - **Orchestrators** (e.g., @research-assistant): `Task, Read, Write, Edit, Bash, Grep, Glob` — coordination, file management, searching, temp file cleanup
 - **Generators** (e.g., @research-report-generator): `Task, Glob, Grep, Read, Write, WebFetch, WebSearch` — research, content creation, web access
-- **Validators** (e.g., @research-fact-checker): `Glob, Grep, Read, WebFetch, WebSearch` — analysis, verification, fact-checking (no write access)
+- **Validators** (e.g., @research-fact-checker): `Glob, Grep, Read, WebFetch, WebSearch` — analysis, verification, fact-checking (no write access). Use `disallowedTools` to explicitly deny `Write, Edit, Bash, Task` for defense-in-depth.
+
+### Model Selection Strategy
+
+Match model to task complexity for cost optimization:
+- **Orchestrators**: Opus — complex reasoning for workflow coordination
+- **Generators**: Opus — high-quality synthesis and report writing
+- **Validators**: Sonnet — structured checklist validation is well-scoped
+- **Research subagents**: Haiku for web search/information gathering, Sonnet for analysis-heavy threads
+
+### Safety and Reliability Features
+
+- **maxTurns**: Set turn limits to prevent runaway agents (e.g., 50 for generators, 30 for validators, 15 for research subagents)
+- **Hooks**: Use PreToolUse hooks to enforce file path constraints deterministically (e.g., generator writes only to `.temp/`, orchestrator writes only to `.reports/`)
+- **permissionMode**: Use `acceptEdits` for read-only agents to streamline operations
+- **memory**: Use project-scoped persistent memory for agents that benefit from cross-session learning (e.g., fact-checker tracking recurring validation patterns)
 
 ## Development Guidelines
 
