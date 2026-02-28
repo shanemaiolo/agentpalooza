@@ -1,6 +1,15 @@
 # Research Plugin
 
-A coordinated research toolkit for Claude Code featuring three specialized agents that work together to produce high-quality, fact-verified research reports.
+A coordinated research toolkit for Claude Code and OpenCode CLI featuring three specialized agents that work together to produce high-quality, fact-verified research reports.
+
+## Supported CLIs
+
+This plugin provides agent definitions for both Claude Code and OpenCode:
+
+| CLI | Agent Directory | Format |
+|-----|----------------|--------|
+| Claude Code | `agents/` | YAML frontmatter with tool arrays, hooks, memory |
+| OpenCode | `opencode/agents/` | YAML frontmatter with tool objects, permissions |
 
 ## Agents
 
@@ -11,26 +20,51 @@ A coordinated research toolkit for Claude Code featuring three specialized agent
 - Sends outputs to @research-fact-checker for validation
 - Manages the iteration loop (up to 3 attempts) until acceptance
 - Delivers final reports with verification status
-- **Hooks**: PreToolUse on Write enforces `.reports/` path constraint
+- **Claude Code**: PreToolUse hook on Write enforces `.reports/` path constraint
+- **OpenCode**: System prompt self-enforces `.reports/` write constraint; bash permissions restrict commands
 
 ### @research-report-generator
-**Generator** (Model: Opus, maxTurns: 50) - Produces comprehensive research reports using parallel subagents.
+**Generator** (Model: Opus, maxTurns/maxSteps: 50) - Produces comprehensive research reports using parallel subagents.
 
 - Analyzes queries and decomposes into research threads
-- Spawns 2-8 specialized subagents for parallel research (using Haiku/Sonnet for cost efficiency)
+- Spawns 2-8 specialized subagents for parallel research
 - Synthesizes findings into structured reports
 - Includes executive summary, methodology, findings, and sources
-- **Hooks**: PreToolUse on Write enforces `.temp/` path constraint
+- **Claude Code**: PreToolUse hook on Write enforces `.temp/` path constraint
+- **OpenCode**: System prompt self-enforces `.temp/` write constraint; bash permissions restrict commands
 
 ### @research-fact-checker
-**Validator** (Model: Sonnet, maxTurns: 30) - Validates research outputs against quality standards.
+**Validator** (Model: Sonnet, maxTurns/maxSteps: 30) - Validates research outputs against quality standards.
 
 - Checks output format compliance
 - Validates quality standards (sources, accuracy, objectivity)
 - Returns ACCEPT or REJECT with required actions
 - Provides detailed remediation guidance
-- **Memory**: Accumulates validation patterns across sessions (project-scoped)
-- **Safety**: `disallowedTools` blocks Write/Edit/Bash/Task; `permissionMode: acceptEdits` streamlines read operations
+- **Claude Code**: `disallowedTools` blocks Write/Edit/Bash/Task; `permissionMode: acceptEdits`; project-scoped `memory`
+- **OpenCode**: `write`, `edit`, `bash`, `task` set to `false` in tools config; edit/bash permissions set to `deny`
+
+## Installation
+
+### Claude Code
+
+Install via the marketplace:
+```
+/plugin install research@agentpalooza
+```
+
+### OpenCode CLI
+
+Copy agents to your project:
+```bash
+mkdir -p .opencode/agents
+cp plugins/research/opencode/agents/*.md .opencode/agents/
+```
+
+Or install globally:
+```bash
+mkdir -p ~/.config/opencode/agents
+cp plugins/research/opencode/agents/*.md ~/.config/opencode/agents/
+```
 
 ## Usage
 
@@ -42,7 +76,7 @@ I need a detailed research report on the impact of quantum computing on cryptogr
 
 ### Interactive Selection
 
-Before spawning `@research-assistant`, the main Claude instance will ask you to choose:
+Before spawning `@research-assistant`, the host instance will ask you to choose:
 
 1. **Standard Category (1-9)** — determines report structure and formatting style:
    | # | Standard | Key Characteristics |
@@ -83,10 +117,10 @@ The @research-assistant will:
 User Request
      │
      ▼
-Main Claude Instance
+Host Instance (Claude Code or OpenCode)
      │
-     ├── AskUserQuestion: Standard Category (1-9)?
-     ├── AskUserQuestion: Report Type?
+     ├── Interactive Selection: Standard Category (1-9)?
+     ├── Interactive Selection: Report Type?
      │
      ▼
 Prepend Report Configuration block
@@ -107,3 +141,15 @@ Prepend Report Configuration block
      │
      └── REJECT ──► Loop (max 3x)
 ```
+
+## CLI-Specific Differences
+
+| Feature | Claude Code | OpenCode |
+|---------|------------|----------|
+| Path enforcement | PreToolUse hooks (deterministic) | System prompt constraints + bash permissions |
+| Tool denial | `disallowedTools` array | `tools` object with `false` values |
+| Permission mode | `permissionMode: acceptEdits` | `permission` object with deny rules |
+| Persistent memory | `memory: project` on fact-checker | Not supported natively |
+| Interactive prompts | `AskUserQuestion` tool | `question` tool |
+
+The core workflow, report format, quality layers, and standard categories are identical across both CLIs. The differences are purely in how each CLI's agent system enforces constraints and manages permissions.
