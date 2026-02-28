@@ -3,8 +3,7 @@
   "version": "1.4.0",
   "metadata": {
     "description": "Plugin marketplace for Claude Code and OpenCode CLI",
-    "pluginRoot": "./plugins",
-    "supportedCLIs": ["claude-code", "opencode"]
+    "pluginRoot": "./plugins"
   },
   "owner": {
     "name": "Shane Maiolo"
@@ -14,8 +13,7 @@
       "name": "research",
       "description": "Research toolkit with coordinated agents for deep research, fact-checking, and report generation",
       "source": "./plugins/research",
-      "tags": ["research", "fact-checking", "agents"],
-      "supportedCLIs": ["claude-code", "opencode"]
+      "tags": ["research", "fact-checking", "agents"]
     }
   ]
 }
