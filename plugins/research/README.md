@@ -5,28 +5,32 @@ A coordinated research toolkit for Claude Code featuring three specialized agent
 ## Agents
 
 ### @research-assistant
-**Orchestrator** - Coordinates the research workflow between generation and validation.
+**Orchestrator** (Model: Opus) - Coordinates the research workflow between generation and validation.
 
 - Delegates research tasks to @research-report-generator
 - Sends outputs to @research-fact-checker for validation
 - Manages the iteration loop (up to 3 attempts) until acceptance
 - Delivers final reports with verification status
+- **Hooks**: PreToolUse on Write enforces `.reports/` path constraint
 
 ### @research-report-generator
-**Generator** - Produces comprehensive research reports using parallel subagents.
+**Generator** (Model: Opus, maxTurns: 50) - Produces comprehensive research reports using parallel subagents.
 
 - Analyzes queries and decomposes into research threads
-- Spawns 2-8 specialized subagents for parallel research
+- Spawns 2-8 specialized subagents for parallel research (using Haiku/Sonnet for cost efficiency)
 - Synthesizes findings into structured reports
 - Includes executive summary, methodology, findings, and sources
+- **Hooks**: PreToolUse on Write enforces `.temp/` path constraint
 
 ### @research-fact-checker
-**Validator** - Validates research outputs against quality standards.
+**Validator** (Model: Sonnet, maxTurns: 30) - Validates research outputs against quality standards.
 
 - Checks output format compliance
 - Validates quality standards (sources, accuracy, objectivity)
 - Returns ACCEPT or REJECT with required actions
 - Provides detailed remediation guidance
+- **Memory**: Accumulates validation patterns across sessions (project-scoped)
+- **Safety**: `disallowedTools` blocks Write/Edit/Bash/Task; `permissionMode: acceptEdits` streamlines read operations
 
 ## Usage
 

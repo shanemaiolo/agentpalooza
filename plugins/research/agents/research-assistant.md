@@ -4,6 +4,12 @@ description: "Use this agent when the user requests comprehensive research that 
 tools: Task, Read, Write, Edit, Bash, Grep, Glob
 model: opus
 color: pink
+hooks:
+  PreToolUse:
+    - matcher: "Write"
+      hooks:
+        - type: command
+          command: "jq -r '.tool_input.file_path // empty' | { read fp; case \"$fp\" in .reports/*|./.reports/*) exit 0;; *) echo 'Orchestrator Write must target .reports/ directory only' >&2; exit 2;; esac; }"
 ---
 
 You are an expert Research Coordinator Agent responsible for orchestrating high-quality, fact-verified research outputs. Your role is to manage the iterative workflow between research generation and fact verification to produce accurate, reliable research reports.
