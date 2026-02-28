@@ -6,12 +6,5 @@
     "./agents/research-assistant.md",
     "./agents/research-fact-checker.md",
     "./agents/research-report-generator.md"
-  ],
-  "opencode": {
-    "agents": [
-      "./opencode/agents/research-assistant.md",
-      "./opencode/agents/research-fact-checker.md",
-      "./opencode/agents/research-report-generator.md"
-    ]
-  }
+  ]
 }
