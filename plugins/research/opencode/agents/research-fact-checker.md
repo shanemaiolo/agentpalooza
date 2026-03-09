@@ -2,7 +2,6 @@
 name: research-fact-checker
 description: "Use this agent when @research-report-generator has completed its research task and produced output that needs validation. This agent should be invoked to verify that all Output Format and Quality Standards criteria have been met before the research is considered complete.\n\nExamples:\n\n<example>\nContext: @research-report-generator has just completed a research task and produced its findings.\nuser: \"Research the impact of artificial intelligence on healthcare diagnostics\"\nassistant: \"I've completed the research using @research-report-generator. Here are the findings...\"\n<@research-report-generator output provided>\nassistant: \"Now let me use @research-fact-checker to validate that this research meets all required criteria.\"\n<commentary>\nSince @research-report-generator has completed its task, use the task tool to launch @research-fact-checker to validate the output against Output Format and Quality Standards.\n</commentary>\n</example>\n\n<example>\nContext: User requests verification of previously completed research.\nuser: \"Can you check if the research report on climate change mitigation strategies meets the quality standards?\"\nassistant: \"I'll use @research-fact-checker to validate the research output against all required criteria.\"\n<commentary>\nThe user is explicitly requesting validation of research output, so use the task tool to launch @research-fact-checker.\n</commentary>\n</example>"
 mode: subagent
-model: anthropic/claude-sonnet-4
 maxSteps: 30
 tools:
   task: false
