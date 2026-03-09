@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.4.0**
+**Version 1.5.0**
 
 A plugin marketplace for Claude Code and OpenCode CLI — distribute reusable agents and skills across projects.
 
@@ -55,7 +55,7 @@ Pulling updates (`git pull ~/agentpalooza`) applies everywhere. Use `Tab` to swi
 
 A multi-agent research toolkit that coordinates comprehensive research with built-in fact-checking, interactive standard selection, and mandatory certification:
 
-**Claude Code agents** (`plugins/research/agents/`):
+**Claude Code agents** (`plugins/research/claude/agents/`):
 - **@research-assistant** — Orchestrates the research workflow, parsing Report Configuration and managing iterations between generation and validation
   - Tools: `Task, Read, Write, Edit, Bash, Grep, Glob`
   - Hooks: PreToolUse on Write enforces `.reports/` path constraint
@@ -69,13 +69,13 @@ A multi-agent research toolkit that coordinates comprehensive research with buil
 **OpenCode agents** (`plugins/research/opencode/agents/`):
 - **@research-assistant** — Same orchestration workflow adapted for OpenCode's agent system
   - Tools: `task, read, write, edit, bash, grep, glob, list`
-  - Mode: `primary` | Model: `anthropic/claude-opus-4`
+  - Mode: `primary` | maxSteps: 100 | Model: user default
 - **@research-report-generator** — Same research generation with OpenCode tool conventions
   - Tools: `task, read, write, bash, grep, glob, list, webfetch, websearch`
-  - Mode: `subagent` | Model: `anthropic/claude-opus-4` | maxSteps: 50
+  - Mode: `subagent` | maxSteps: 50 | Model: user default
 - **@research-fact-checker** — Same validation logic with OpenCode read-only enforcement
   - Tools: `read, grep, glob, list, webfetch, websearch` (write/edit/bash/task disabled)
-  - Mode: `subagent` | Model: `anthropic/claude-sonnet-4` | maxSteps: 30
+  - Mode: `subagent` | maxSteps: 30 | Model: user default
 
 **Interactive selection**: Before research begins, users choose a **Standard Category** (Academic, Industry, Government, Digital, Quality, AI-Report, Use-Case, Custom, or Practical) and a **Report Type** (Quick Brief, Deep Technical, Executive Summary, Compliance, or Hybrid). These selections guide formatting and validation throughout the pipeline.
 
@@ -127,8 +127,9 @@ plugins/
 └── your-plugin/
     ├── .claude-plugin/
     │   └── plugin.json
-    ├── agents/                   # Claude Code agents
-    │   └── your-agent.md
+    ├── claude/
+    │   └── agents/               # Claude Code agents
+    │       └── your-agent.md
     ├── opencode/
     │   └── agents/               # OpenCode agents
     │       └── your-agent.md
@@ -145,8 +146,8 @@ Create `.claude-plugin/plugin.json`:
   "version": "1.0.0",
   "description": "Your plugin description",
   "agents": [
-    "./agents/your-agent.md",
-    "./agents/another-agent.md"
+    "./claude/agents/your-agent.md",
+    "./claude/agents/another-agent.md"
   ],
   "opencode": {
     "agents": [
@@ -248,10 +249,11 @@ agentpalooza/
 │   └── research/              # Research plugin
 │       ├── .claude-plugin/
 │       │   └── plugin.json    # Plugin manifest
-│       ├── agents/            # Claude Code agents
-│       │   ├── research-assistant.md
-│       │   ├── research-fact-checker.md
-│       │   └── research-report-generator.md
+│       ├── claude/
+│       │   └── agents/        # Claude Code agents
+│       │       ├── research-assistant.md
+│       │       ├── research-fact-checker.md
+│       │       └── research-report-generator.md
 │       ├── opencode/
 │       │   └── agents/        # OpenCode agents
 │       │       ├── research-assistant.md

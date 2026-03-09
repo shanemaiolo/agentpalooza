@@ -8,7 +8,7 @@ This plugin provides agent definitions for both Claude Code and OpenCode:
 
 | CLI | Agent Directory | Format |
 |-----|----------------|--------|
-| Claude Code | `agents/` | YAML frontmatter with tool arrays, hooks, memory |
+| Claude Code | `claude/agents/` | YAML frontmatter with tool arrays, hooks, memory |
 | OpenCode | `opencode/agents/` | YAML frontmatter with tool objects, permissions |
 
 ## Agents

@@ -118,6 +118,8 @@ If @research-fact-checker returns a REJECT status:
 3. Pass the updated file path to **@research-fact-checker** again
 4. Repeat this cycle until ACCEPT is received
 
+Note: @research-report-generator was previously named "deep-research agent" or "deep-researcher agent".
+
 ### Phase 4: Finalization (MANDATORY)
 After receiving ACCEPT from @research-fact-checker OR reaching max iterations:
 1. Read the draft report from `.temp/{topic-slug}-{timestamp}.md` using the read tool

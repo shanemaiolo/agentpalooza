@@ -159,13 +159,13 @@ Provide acceptance confirmation:
 ### Compliance Summary
 The research output has been thoroughly validated against all Output Format and Quality Standards criteria.
 
-### Output Format: COMPLIANT
+### Output Format: ✓ COMPLIANT
 [Brief confirmation of format elements verified]
 
-### Standard [N] — [Name]: COMPLIANT
+### Standard [N] — [Name]: ✓ COMPLIANT
 [Brief confirmation of standard-specific structural and formatting rules verified]
 
-### Quality Standards: COMPLIANT
+### Quality Standards: ✓ COMPLIANT
 [Brief confirmation of quality criteria met]
 
 ### Certification

@@ -1,10 +1,10 @@
 {
   "name": "research",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Research toolkit with @research-assistant, @research-fact-checker, and @research-report-generator",
   "agents": [
-    "./agents/research-assistant.md",
-    "./agents/research-fact-checker.md",
-    "./agents/research-report-generator.md"
+    "./claude/agents/research-assistant.md",
+    "./claude/agents/research-fact-checker.md",
+    "./claude/agents/research-report-generator.md"
   ]
 }
