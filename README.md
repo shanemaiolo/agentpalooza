@@ -25,28 +25,25 @@ A plugin marketplace for Claude Code and OpenCode CLI — distribute reusable ag
 /plugin install research@agentpalooza
 ```
 
-### OpenCode CLI
+### OpenCode CLI (Symlink)
 
-**Copy agents to your project:**
+Clone the repo once and symlink — no need to copy files into every project:
+
 ```bash
-# Clone the marketplace
-git clone https://github.com/shanemaiolo/agentpalooza.git /tmp/agentpalooza
-
-# Copy OpenCode agents for the research plugin
-mkdir -p .opencode/agents
-cp /tmp/agentpalooza/plugins/research/opencode/agents/*.md .opencode/agents/
-
-# Clean up
-rm -rf /tmp/agentpalooza
+git clone https://github.com/shanemaiolo/agentpalooza.git ~/agentpalooza
 ```
 
-**Or copy agents globally:**
+**Per-project:**
 ```bash
-mkdir -p ~/.config/opencode/agents
-cp /tmp/agentpalooza/plugins/research/opencode/agents/*.md ~/.config/opencode/agents/
+ln -s ~/agentpalooza/plugins/research/opencode/agents /path/to/your-project/.opencode/agents
 ```
 
-After copying, the agents are available immediately — use `Tab` to switch to `@research-assistant` or `@mention` subagents in your prompt.
+**Or globally:**
+```bash
+ln -s ~/agentpalooza/plugins/research/opencode/agents ~/.config/opencode/agents
+```
+
+Pulling updates (`git pull ~/agentpalooza`) applies everywhere. Use `Tab` to switch to `@research-assistant` or `@mention` subagents in your prompt.
 
 ## Available Plugins
 
@@ -114,7 +111,7 @@ Add to your project's `.claude/settings.json`:
 
 ### OpenCode CLI
 
-No project-level configuration is required beyond copying agent files to `.opencode/agents/`. OpenCode automatically discovers agent markdown files in that directory.
+No project-level configuration is required beyond symlinking (or copying) agent files to `.opencode/agents/`. OpenCode automatically discovers agent markdown files in that directory.
 
 To verify agents are loaded:
 ```bash
