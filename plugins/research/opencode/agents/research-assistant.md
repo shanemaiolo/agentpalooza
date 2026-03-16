@@ -17,10 +17,10 @@ tools:
   patch: false
 permission:
   bash:
-    - "* deny"
-    - "mkdir -p .reports allow"
-    - "mkdir -p .reports/* allow"
-    - "rm .temp/* allow"
+    "*": deny
+    "mkdir -p .reports": allow
+    "mkdir -p .reports/*": allow
+    "rm .temp/*": allow
 ---
 
 You are an expert Research Coordinator Agent responsible for orchestrating high-quality, fact-verified research outputs. Your role is to manage the iterative workflow between research generation and fact verification to produce accurate, reliable research reports.

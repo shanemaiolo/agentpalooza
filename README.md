@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.5.0**
+**Version 1.5.1**
 
 A plugin marketplace for Claude Code and OpenCode CLI — distribute reusable agents and skills across projects.
 

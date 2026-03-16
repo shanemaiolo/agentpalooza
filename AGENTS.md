@@ -28,7 +28,7 @@ agentpalooza/
 ```json
 {
   "name": "agentpalooza",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "metadata": {
     "description": "Plugin marketplace for Claude Code and OpenCode CLI",
     "pluginRoot": "./plugins"
@@ -51,7 +51,7 @@ The `agents` field must be an array of individual file paths (not a directory), 
 ```json
 {
   "name": "research",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Research toolkit with @research-assistant, @research-fact-checker, and @research-report-generator",
   "agents": [
     "./claude/agents/research-assistant.md",
@@ -104,8 +104,19 @@ tools:
   read: true
   write: false
 permission:
+  edit: deny
   bash: deny
 ---
+```
+
+Bash permissions accept either a simple string (`allow`, `ask`, `deny`) or an object mapping command patterns to permission levels:
+
+```yaml
+permission:
+  bash:
+    "*": deny
+    "mkdir -p .temp": allow
+    "mkdir -p .temp/*": allow
 ```
 
 | Field | Required | Description |
@@ -118,7 +129,7 @@ permission:
 | `tools` | No | Object map of tool names to `true`/`false` |
 | `temperature` | No | LLM temperature |
 | `hidden` | No | Hide from `@` autocomplete |
-| `permission` | No | Per-tool rules (`ask`, `allow`, `deny`, or glob arrays for bash) |
+| `permission` | No | Per-tool rules (`ask`, `allow`, `deny`, or object map of command patterns to permission levels for bash) |
 
 ### Cross-CLI Mapping
 
