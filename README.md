@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.5.1**
+**Version 1.6.0**
 
 A plugin marketplace for Claude Code and OpenCode CLI — distribute reusable agents and skills across projects.
 
@@ -33,15 +33,27 @@ Clone the repo once and symlink — no need to copy files into every project:
 git clone https://github.com/shanemaiolo/agentpalooza.git ~/agentpalooza
 ```
 
-**Per-project:**
+**Quick install:**
 ```bash
-ln -s ~/agentpalooza/plugins/research/opencode/agents /path/to/your-project/.opencode/agents
+./scripts/install-opencode.sh /path/to/your-project
+
+# Or globally:
+./scripts/install-opencode.sh --global
+```
+
+**Manual setup — per-project:**
+```bash
+mkdir -p /path/to/your-project/.opencode/agents
+ln -s ~/agentpalooza/plugins/research/opencode/agents /path/to/your-project/.opencode/agents/agentpalooza-research
 ```
 
 **Or globally:**
 ```bash
-ln -s ~/agentpalooza/plugins/research/opencode/agents ~/.config/opencode/agents
+mkdir -p ~/.config/opencode/agents
+ln -s ~/agentpalooza/plugins/research/opencode/agents ~/.config/opencode/agents/agentpalooza-research
 ```
+
+This creates a namespaced subdirectory symlink (`agentpalooza-research/`) so plugin agents don't conflict with your own agents or other plugins in `.opencode/agents/`.
 
 Pulling updates (`git pull ~/agentpalooza`) applies everywhere. Use `Tab` to switch to `@research-assistant` or `@mention` subagents in your prompt.
 

@@ -28,7 +28,7 @@ agentpalooza/
 ```json
 {
   "name": "agentpalooza",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "metadata": {
     "description": "Plugin marketplace for Claude Code and OpenCode CLI",
     "pluginRoot": "./plugins"
@@ -51,7 +51,7 @@ The `agents` field must be an array of individual file paths (not a directory), 
 ```json
 {
   "name": "research",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Research toolkit with @research-assistant, @research-fact-checker, and @research-report-generator",
   "agents": [
     "./claude/agents/research-assistant.md",
@@ -61,7 +61,7 @@ The `agents` field must be an array of individual file paths (not a directory), 
 }
 ```
 
-OpenCode agents are not registered in plugin.json — they live in `opencode/agents/` and are discovered by copying files to the user's project or global config.
+OpenCode agents are not registered in plugin.json — they live in `opencode/agents/` and are discovered via subdirectory symlinks. Symlink each plugin's agents directory into `.opencode/agents/agentpalooza-{plugin}` (e.g., `agentpalooza-research`) so they stay namespaced and don't conflict with other agents. See the install script (`scripts/install-opencode.sh`) or README for setup.
 
 ## Agent Definition Formats
 
