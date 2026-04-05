@@ -5,7 +5,6 @@ tools: Glob, Grep, Read, WebFetch, WebSearch
 disallowedTools: Write, Edit, Bash, Task
 model: sonnet
 color: green
-permissionMode: acceptEdits
 maxTurns: 30
 memory: project
 ---

@@ -64,9 +64,9 @@ For each subagent, provide:
 ```
 
 **Model Selection for Subagents:**
-- For focused web search and information gathering threads: use `model: haiku`
-- For threads requiring complex analysis or synthesis: use `model: sonnet`
-- Set `maxTurns: 15` on all research subagents to prevent runaway behavior
+- For focused web search and information gathering threads: use `model: haiku` (fast, cost-effective)
+- For threads requiring complex analysis or synthesis: use `model: sonnet` (more capable)
+- Limit all research subagents to 15 turns to prevent runaway behavior
 - If a subagent hits the turn limit, use whatever findings it gathered up to that point
 
 Subagent Instructions Template:
@@ -265,6 +265,3 @@ After synthesizing the final report, you MUST:
 **NEVER write report content to the source file, PROMPT.md, or any file other than the `.temp/` directory.**
 
 **Note**: Drafts are written to `.temp/` during the generation and validation loop. After certification, @research-assistant moves the final report to `.reports/` and removes the temp file.
-
-Example: For "Quantum Computing Applications", write to:
-`.temp/quantum-computing-applications-20260204-143022.md`

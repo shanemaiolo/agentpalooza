@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.6.0**
+**Version 1.7.0**
 
 A plugin marketplace for Claude Code and OpenCode CLI — distribute reusable agents and skills across projects.
 
@@ -76,7 +76,7 @@ A multi-agent research toolkit that coordinates comprehensive research with buil
   - Hooks: PreToolUse on Write enforces `.temp/` path constraint
 - **@research-fact-checker** — Validates research outputs against quality, format, and standard-specific rules
   - Tools: `Glob, Grep, Read, WebFetch, WebSearch`
-  - Safety: `disallowedTools` blocks Write/Edit/Bash/Task; `permissionMode: acceptEdits`
+  - Safety: `disallowedTools` blocks Write/Edit/Bash/Task
 
 **OpenCode agents** (`plugins/research/opencode/agents/`):
 - **@research-assistant** — Same orchestration workflow adapted for OpenCode's agent system
@@ -199,7 +199,7 @@ color: cyan
 name: your-agent
 description: "Agent description with usage examples"
 mode: subagent
-model: anthropic/claude-sonnet-4
+model: anthropic/claude-sonnet-4-6
 maxSteps: 30
 tools:
   read: true
@@ -225,7 +225,7 @@ tools:
 | Feature | Claude Code | OpenCode |
 |---------|------------|----------|
 | Tool format | Array: `[Task, Read, Write]` | Object: `task: true, read: true` |
-| Model names | `opus`, `sonnet`, `haiku` | `anthropic/claude-opus-4`, etc. |
+| Model names | `opus`, `sonnet`, `haiku` | `anthropic/claude-opus-4-6`, etc. |
 | Turn limits | `maxTurns: 50` | `maxSteps: 50` |
 | Tool denial | `disallowedTools: [Write, Edit]` | `write: false, edit: false` in tools |
 | Agent mode | Implicit (based on usage) | Explicit: `mode: primary\|subagent` |

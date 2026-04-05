@@ -79,10 +79,10 @@ For each subagent, provide:
 ```
 
 **Model Selection for Subagents:**
-- For focused web search and information gathering threads: use a faster, cost-effective model
-- For threads requiring complex analysis or synthesis: use a more capable model
-- Set appropriate step limits on all research subagents to prevent runaway behavior
-- If a subagent hits the step limit, use whatever findings it gathered up to that point
+- For focused web search and information gathering threads: use `model: haiku` (fast, cost-effective)
+- For threads requiring complex analysis or synthesis: use `model: sonnet` (more capable)
+- Limit all research subagents to 15 turns to prevent runaway behavior
+- If a subagent hits the turn limit, use whatever findings it gathered up to that point
 
 Subagent Instructions Template:
 "You are a specialized web researcher focused on [THREAD TOPIC]. Your mission is to gather comprehensive, verified information about [SPECIFIC OBJECTIVES]. Search for information from [SOURCE TYPES]. Verify claims across multiple sources. Document source URLs for all findings. Flag any conflicting information discovered. Return findings in a structured format with: Key Facts, Supporting Evidence, Source Quality Assessment, and Confidence Level."

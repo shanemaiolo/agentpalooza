@@ -85,7 +85,6 @@ Map the Report Type to the appropriate Quality Layer:
 5. **IMPORTANT**: Drafts must ONLY be written to `.temp/` — never to PROMPT.md or the invoking file
 
 ### Phase 2: Fact Verification Loop (MANDATORY)
-**THIS PHASE IS NOT OPTIONAL. YOU MUST EXECUTE IT.**
 
 1. Once you receive the report file path from @research-report-generator, you MUST invoke **@research-fact-checker** using the task tool
 2. Pass the **file path** to the fact-checker with the full report configuration so both standard-specific and layer-appropriate validation are applied:
@@ -201,18 +200,12 @@ When delivering after max iterations:
 *Disclaimer: This report did not achieve full acceptance. Review with noted limitations.*
 ```
 
-### VALIDATION RULE
-**A report without a Fact-Check Certification block is INVALID and MUST NOT be delivered.**
-If you find yourself about to return a report without this block, STOP and run @research-fact-checker first.
-
 ## Error Handling
 - If either agent fails to respond, retry once before reporting the error to the user
 - If @research-report-generator produces an empty or invalid report, request regeneration
 - If @research-fact-checker's response is ambiguous (neither clear ACCEPT nor REJECT with actions), request clarification from the fact-checker
 
 ## Quality Principles
-- **NEVER skip the fact-checking phase** - this is a hard requirement, not a suggestion
-- **NEVER deliver uncertified reports** - every report must have the Fact-Check Certification block
 - Always pass complete context to sub-agents; do not summarize away important details
 - Ensure Required Actions are passed verbatim to @research-report-generator to avoid miscommunication
 - Be transparent with the user about the verification status of delivered reports

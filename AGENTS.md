@@ -28,7 +28,7 @@ agentpalooza/
 ```json
 {
   "name": "agentpalooza",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "metadata": {
     "description": "Plugin marketplace for Claude Code and OpenCode CLI",
     "pluginRoot": "./plugins"
@@ -51,7 +51,7 @@ The `agents` field must be an array of individual file paths (not a directory), 
 ```json
 {
   "name": "research",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Research toolkit with @research-assistant, @research-fact-checker, and @research-report-generator",
   "agents": [
     "./claude/agents/research-assistant.md",
@@ -124,7 +124,7 @@ permission:
 | `name` | Yes | Kebab-case identifier (same as Claude Code counterpart) |
 | `description` | Yes | Usage description with examples |
 | `mode` | No | `primary`, `subagent`, or `all` |
-| `model` | No | Full provider/model string (e.g., `anthropic/claude-opus-4`). Omit to use user default. |
+| `model` | No | Full provider/model string (e.g., `anthropic/claude-opus-4-6`). Omit to use user default. |
 | `maxSteps` | No | Max agentic iterations |
 | `tools` | No | Object map of tool names to `true`/`false` |
 | `temperature` | No | LLM temperature |
@@ -137,7 +137,7 @@ permission:
 |---------|------------|----------|
 | Tools | `tools: [Read, Write]` | `tools: { read: true, write: true }` |
 | Tool denial | `disallowedTools: [Write]` | `write: false` in `tools` |
-| Model | `model: opus` | `model: anthropic/claude-opus-4` (or omit for default) |
+| Model | `model: opus` | `model: anthropic/claude-opus-4-6` (or omit for default) |
 | Turn limit | `maxTurns: 50` | `maxSteps: 50` |
 | Path enforcement | `hooks:` (PreToolUse) | System prompt constraints |
 | Permissions | `permissionMode: acceptEdits` | `permission:` object per tool |

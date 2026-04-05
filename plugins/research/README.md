@@ -40,7 +40,7 @@ This plugin provides agent definitions for both Claude Code and OpenCode:
 - Validates quality standards (sources, accuracy, objectivity)
 - Returns ACCEPT or REJECT with required actions
 - Provides detailed remediation guidance
-- **Claude Code**: `disallowedTools` blocks Write/Edit/Bash/Task; `permissionMode: acceptEdits`; project-scoped `memory`
+- **Claude Code**: `disallowedTools` blocks Write/Edit/Bash/Task; project-scoped `memory`
 - **OpenCode**: `write`, `edit`, `bash`, `task` set to `false` in tools config; edit/bash permissions set to `deny`
 
 ## Installation
