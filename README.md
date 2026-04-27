@@ -1,6 +1,6 @@
 # Agentpalooza
 
-**Version 1.7.0**
+**Version 1.7.1**
 
 A plugin marketplace for Claude Code and OpenCode CLI — distribute reusable agents and skills across projects.
 
@@ -225,7 +225,7 @@ tools:
 | Feature | Claude Code | OpenCode |
 |---------|------------|----------|
 | Tool format | Array: `[Task, Read, Write]` | Object: `task: true, read: true` |
-| Model names | `opus`, `sonnet`, `haiku` | `anthropic/claude-opus-4-6`, etc. |
+| Model names | `opus`, `sonnet`, `haiku` | `anthropic/claude-opus-4-7`, etc. |
 | Turn limits | `maxTurns: 50` | `maxSteps: 50` |
 | Tool denial | `disallowedTools: [Write, Edit]` | `write: false, edit: false` in tools |
 | Agent mode | Implicit (based on usage) | Explicit: `mode: primary\|subagent` |
